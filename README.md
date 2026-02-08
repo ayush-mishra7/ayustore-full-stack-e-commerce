@@ -2,8 +2,6 @@
 
 A modern, full-stack e-commerce platform built with React.js frontend and Spring Boot backend.
 
-![AyuStore Banner](https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6)
-
 ## 🚀 Tech Stack
 
 ### Frontend
