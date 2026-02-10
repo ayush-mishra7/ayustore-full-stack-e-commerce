@@ -21,14 +21,16 @@ A modern, full-stack e-commerce platform built with React.js frontend and Spring
 
 ## 📋 Features
 
-- 🛍️ Product catalog with search & categories
-- 🔐 Google OAuth 2.0 authentication
-- 🛒 Shopping cart functionality
-- 📦 Order management & lifecycle
-- 💳 Razorpay payment integration
-- 👤 User profile management
-- 🔑 Admin dashboard
-- 📊 Redis caching for performance
+- 🛍️ **Advanced Product Catalog**: Hierarchical categories, smart search, and filtering
+- 🇮🇳 **India-Focused Experience**: INR pricing, GST handling, and localized formats
+- 🔐 **Secure Authentication**: Google OAuth 2.0 & JWT-based session management
+- 🛒 **Smart Cart & Checkout**: Seamless flow with address management
+- 📦 **Order Management**: Full lifecycle tracking including Returns & Cancellations
+- 💳 **Payment Integration**: Razorpay gateway with secure transaction handling
+- ❤️ **Wishlist**: Save favorite products for later
+- 📱 **Mobile-First Design**: Responsive UI matching top e-commerce standards
+- ⚡ **High Performance**: Redis caching and optimized assets
+- 📊 **Admin Dashboard**: Comprehensive analytics and user management
 
 ## 📁 Project Structure
 
