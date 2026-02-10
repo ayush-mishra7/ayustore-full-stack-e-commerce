@@ -54,3 +54,5 @@ coverage/
 
 # Local development
 .local
+
+**/application-local.properties

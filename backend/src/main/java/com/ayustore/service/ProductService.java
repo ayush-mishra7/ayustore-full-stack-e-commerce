@@ -7,9 +7,6 @@ import com.ayustore.exception.ResourceNotFoundException;
 import com.ayustore.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
-import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,7 +20,6 @@ public class ProductService {
 
     private final ProductRepository productRepository;
 
-    @Cacheable(value = "products", unless = "#result.isEmpty()")
     @Transactional(readOnly = true)
     public List<ProductDto> getAllProducts() {
         log.info("Fetching all active products from database");
@@ -32,7 +28,6 @@ public class ProductService {
                 .collect(Collectors.toList());
     }
 
-    @Cacheable(value = "product", key = "#id")
     @Transactional(readOnly = true)
     public ProductDto getProductById(Long id) {
         log.info("Fetching product by id: {}", id);
@@ -42,7 +37,6 @@ public class ProductService {
         return ProductDto.fromEntity(product);
     }
 
-    @Cacheable(value = "categories")
     @Transactional(readOnly = true)
     public List<String> getAllCategories() {
         log.info("Fetching all categories");
@@ -67,10 +61,6 @@ public class ProductService {
 
     // Admin operations
 
-    @Caching(evict = {
-            @CacheEvict(value = "products", allEntries = true),
-            @CacheEvict(value = "categories", allEntries = true)
-    })
     @Transactional
     public ProductDto createProduct(CreateProductRequest request) {
         log.info("Creating new product: {}", request.getName());
@@ -89,11 +79,6 @@ public class ProductService {
         return ProductDto.fromEntity(product);
     }
 
-    @Caching(evict = {
-            @CacheEvict(value = "products", allEntries = true),
-            @CacheEvict(value = "product", key = "#id"),
-            @CacheEvict(value = "categories", allEntries = true)
-    })
     @Transactional
     public ProductDto updateProduct(Long id, CreateProductRequest request) {
         log.info("Updating product: {}", id);
@@ -117,11 +102,6 @@ public class ProductService {
         return ProductDto.fromEntity(product);
     }
 
-    @Caching(evict = {
-            @CacheEvict(value = "products", allEntries = true),
-            @CacheEvict(value = "product", key = "#id"),
-            @CacheEvict(value = "categories", allEntries = true)
-    })
     @Transactional
     public void deleteProduct(Long id) {
         log.info("Soft deleting product: {}", id);

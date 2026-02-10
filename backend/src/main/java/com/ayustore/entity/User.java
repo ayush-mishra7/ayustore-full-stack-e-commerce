@@ -29,6 +29,10 @@ public class User {
 
     private String avatar;
 
+    private String password; // For email/password auth (null for OAuth users)
+
+    private String phone;
+
     @Column(unique = true)
     private String googleId;
 
