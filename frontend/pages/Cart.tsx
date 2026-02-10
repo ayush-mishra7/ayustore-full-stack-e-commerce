@@ -24,26 +24,26 @@ const Cart: React.FC = () => {
   return (
     <div>
       <h1 className="text-3xl font-bold text-slate-900 dark:text-white mb-8">Shopping Cart ({itemCount})</h1>
-      
+
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* Cart Items */}
         <div className="lg:col-span-2 space-y-4">
           {items.map(item => (
             <div key={item.id} className="flex gap-4 p-4 bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-100 dark:border-slate-700">
-              <div 
+              <div
                 className="w-24 h-24 rounded-lg overflow-hidden bg-gray-100 cursor-pointer flex-shrink-0"
                 onClick={() => navigate(`/product/${item.id}`)}
               >
                 <img src={item.image} alt={item.name} className="w-full h-full object-cover" />
               </div>
-              
+
               <div className="flex-1 flex flex-col justify-between">
                 <div>
                   <div className="flex justify-between items-start">
                     <h3 className="font-semibold text-slate-900 dark:text-white cursor-pointer hover:underline" onClick={() => navigate(`/product/${item.id}`)}>
                       {item.name}
                     </h3>
-                    <button 
+                    <button
                       onClick={() => removeFromCart(item.id)}
                       className="text-slate-400 hover:text-red-500 transition-colors p-1"
                     >
@@ -52,17 +52,17 @@ const Cart: React.FC = () => {
                   </div>
                   <p className="text-sm text-slate-500 dark:text-slate-400">{item.category}</p>
                 </div>
-                
+
                 <div className="flex justify-between items-end">
                   <div className="flex items-center border border-slate-200 dark:border-slate-700 rounded-lg">
-                    <button 
+                    <button
                       className="p-1 px-2 text-slate-500 hover:text-slate-900 dark:hover:text-white"
                       onClick={() => updateQuantity(item.id, item.quantity - 1)}
                     >
                       <Minus size={14} />
                     </button>
                     <span className="w-8 text-center text-sm font-medium text-slate-900 dark:text-white">{item.quantity}</span>
-                    <button 
+                    <button
                       className="p-1 px-2 text-slate-500 hover:text-slate-900 dark:hover:text-white"
                       onClick={() => updateQuantity(item.id, item.quantity + 1)}
                     >
@@ -82,7 +82,7 @@ const Cart: React.FC = () => {
         <div className="lg:col-span-1">
           <div className="bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-700 sticky top-24">
             <h2 className="text-lg font-bold text-slate-900 dark:text-white mb-4">Order Summary</h2>
-            
+
             <div className="space-y-3 mb-6">
               <div className="flex justify-between text-slate-600 dark:text-slate-300">
                 <span>Subtotal</span>
@@ -101,11 +101,11 @@ const Cart: React.FC = () => {
                 <span>${(cartTotal * 1.08).toFixed(2)}</span>
               </div>
             </div>
-            
-            <Button fullWidth onClick={() => navigate('/checkout')}>
+
+            <Button fullWidth onClick={() => navigate('/order-summary')}>
               Proceed to Checkout
             </Button>
-            
+
             <p className="text-xs text-center text-slate-400 mt-4">
               Secure Checkout - SSL Encrypted
             </p>

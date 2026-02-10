@@ -42,7 +42,7 @@ api.interceptors.response.use(
     // This ensures the frontend is viewable as a portfolio piece
     if (error.response?.status === 404 || error.code === "ERR_NETWORK") {
       const url = error.config.url;
-      
+
       // Simulating network delay
       await new Promise(resolve => setTimeout(resolve, 600));
 
@@ -50,17 +50,17 @@ api.interceptors.response.use(
         return { data: getMockProducts() };
       }
       if (url?.includes('/auth')) {
-        return { 
-          data: { 
-            token: "mock_jwt_token", 
-            user: { 
-              id: "1", 
-              name: "Demo User", 
-              email: "user@ayustore.com", 
+        return {
+          data: {
+            token: "mock_jwt_token",
+            user: {
+              id: "1",
+              name: "Demo User",
+              email: "user@ayustore.com",
               role: "admin",
-              avatar: "https://picsum.photos/200/200?random=user" 
-            } 
-          } 
+              avatar: "https://picsum.photos/200/200?random=user"
+            }
+          }
         };
       }
       if (url?.includes('/orders')) {
@@ -84,6 +84,14 @@ export const ProductService = {
 };
 
 export const AuthService = {
+  // Email/Password Login
+  login: (email: string, password: string) =>
+    api.post<{ token: string; user: User }>('/auth/login', { email, password }),
+
+  // Registration
+  register: (data: { name: string; email: string; phone?: string; password: string }) =>
+    api.post<{ token: string; user: User }>('/auth/register', data),
+
   // Redirect to Google OAuth
   initiateGoogleLogin: () => {
     window.location.href = `${BASE_URL}/auth/google`;
@@ -114,7 +122,7 @@ export const OrderService = {
 };
 
 export const PaymentService = {
-  createRazorpayOrder: (orderId: string) => 
+  createRazorpayOrder: (orderId: string) =>
     api.post<{ razorpayOrderId: string; amount: number; currency: string; keyId: string }>
       (`/payments/razorpay/create?orderId=${orderId}`),
   verifyPayment: (data: { razorpayOrderId: string; razorpayPaymentId: string; razorpaySignature: string }) =>
@@ -124,7 +132,7 @@ export const PaymentService = {
 export const AdminService = {
   getDashboard: () => api.get('/admin/dashboard'),
   getAllOrders: () => api.get<Order[]>('/admin/orders'),
-  updateOrderStatus: (orderId: string, status: string) => 
+  updateOrderStatus: (orderId: string, status: string) =>
     api.put(`/admin/orders/${orderId}/status?status=${status}`),
   createProduct: (data: any) => api.post('/admin/products', data),
   updateProduct: (id: number, data: any) => api.put(`/admin/products/${id}`, data),
