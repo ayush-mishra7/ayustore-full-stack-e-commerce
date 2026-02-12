@@ -1,6 +1,6 @@
 # 🛍️ AyuStore - Premium E-Commerce Platform
 
-![AyuStore Hero](assets/ayustore_logo.png)
+[![Live Demo](https://img.shields.io/badge/demo-online-green.svg)](https://ayustore-shop.vercel.app)
 
 > **A full-stack, production-grade e-commerce application built for the modern India.**  
 > Featuring real-time payments, secure authentication, and a blazing fast user experience.
