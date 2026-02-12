@@ -7,7 +7,7 @@ interface AuthContextType {
     isAuthenticated: boolean;
     isLoading: boolean;
     logout: () => void;
-    checkAuth: () => Promise<void>;
+    checkAuth: () => Promise<boolean>;
     requireAuth: (redirectTo?: string) => boolean;
 }
 
@@ -17,22 +17,25 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const [user, setUser] = useState<User | null>(null);
     const [isLoading, setIsLoading] = useState(true);
 
-    const checkAuth = useCallback(async () => {
+    const checkAuth = useCallback(async (): Promise<boolean> => {
         const token = localStorage.getItem('auth_token');
-        if (token) {
-            try {
+        try {
+            if (token) {
                 const res = await AuthService.getProfile();
                 setUser(res.data);
                 console.log('Auth check successful, user:', res.data?.name);
-            } catch (err) {
-                console.error('Auth check failed:', err);
-                localStorage.removeItem('auth_token');
-                setUser(null);
+                return true;
             }
-        } else {
             setUser(null);
+            return false;
+        } catch (err) {
+            console.error('Auth check failed:', err);
+            localStorage.removeItem('auth_token');
+            setUser(null);
+            return false;
+        } finally {
+            setIsLoading(false);
         }
-        setIsLoading(false);
     }, []);
 
     useEffect(() => {

@@ -25,8 +25,8 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children, requireAdmin 
 
     // Not authenticated - redirect to login with message
     if (!isAuthenticated) {
-        // Store the intended destination
-        sessionStorage.setItem('auth_redirect', location.pathname);
+        // Store the intended destination in localStorage for resilience
+        localStorage.setItem('redirectAfterLogin', location.pathname);
         sessionStorage.setItem('auth_message', 'Please login first to continue');
         return <Navigate to="/login" replace />;
     }

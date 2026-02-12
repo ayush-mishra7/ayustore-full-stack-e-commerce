@@ -7,7 +7,7 @@ import { WishlistProvider } from './context/WishlistContext';
 import Layout from './components/Layout';
 import ProtectedRoute from './components/ProtectedRoute';
 import Home from './pages/Home';
-import ProductList from './pages/ProductList';
+import Shop from './pages/Shop';
 import ProductDetails from './pages/ProductDetails';
 import Cart from './pages/Cart';
 import Checkout from './pages/Checkout';
@@ -17,7 +17,18 @@ import SearchResults from './pages/SearchResults';
 import Wishlist from './pages/Wishlist';
 import OrderSummary from './pages/OrderSummary';
 import OAuthCallback from './pages/OAuthCallback';
-import Profile from './pages/Profile';
+// import Profile from './pages/Profile'; // Deprecated
+
+// Profile Components
+import ProfileLayout from './pages/profile/ProfileLayout';
+import ProfileOverview from './pages/profile/ProfileOverview';
+import OrderList from './pages/profile/OrderList';
+import OrderDetails from './pages/profile/OrderDetails';
+import AddressManage from './pages/profile/AddressManage';
+import Rewards from './pages/profile/Rewards';
+import Notifications from './pages/profile/Notifications';
+import HelpCenter from './pages/profile/HelpCenter';
+import Settings from './pages/profile/Settings';
 
 const App: React.FC = () => {
   return (
@@ -29,7 +40,7 @@ const App: React.FC = () => {
               <Layout>
                 <Routes>
                   <Route path="/" element={<Home />} />
-                  <Route path="/shop" element={<ProductList />} />
+                  <Route path="/shop" element={<Shop />} />
                   <Route path="/search" element={<SearchResults />} />
                   <Route path="/product/:id" element={<ProductDetails />} />
                   <Route path="/cart" element={<Cart />} />
@@ -54,6 +65,7 @@ const App: React.FC = () => {
                       </ProtectedRoute>
                     }
                   />
+
                   <Route
                     path="/admin"
                     element={
@@ -62,14 +74,26 @@ const App: React.FC = () => {
                       </ProtectedRoute>
                     }
                   />
+
+                  {/* Profile Routes */}
                   <Route
                     path="/profile"
                     element={
                       <ProtectedRoute>
-                        <Profile />
+                        <ProfileLayout />
                       </ProtectedRoute>
                     }
-                  />
+                  >
+                    <Route index element={<ProfileOverview />} />
+                    <Route path="orders" element={<OrderList />} />
+                    <Route path="orders/:id" element={<OrderDetails />} />
+                    <Route path="addresses" element={<AddressManage />} />
+                    <Route path="wishlist" element={<Wishlist />} />
+                    <Route path="rewards" element={<Rewards />} />
+                    <Route path="notifications" element={<Notifications />} />
+                    <Route path="help" element={<HelpCenter />} />
+                    <Route path="settings" element={<Settings />} />
+                  </Route>
 
                   <Route path="*" element={<Navigate to="/" />} />
                 </Routes>

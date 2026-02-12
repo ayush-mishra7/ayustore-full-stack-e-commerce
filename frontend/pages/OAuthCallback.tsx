@@ -22,11 +22,16 @@ const OAuthCallback: React.FC = () => {
             localStorage.setItem('auth_token', token);
 
             // Check auth and redirect to home or stored redirect path
-            checkAuth().then(() => {
-                const redirectPath = sessionStorage.getItem('auth_redirect') || '/';
-                sessionStorage.removeItem('auth_redirect');
-                console.log('OAuth success, redirecting to:', redirectPath);
-                navigate(redirectPath, { replace: true });
+            checkAuth().then((isAuthenticated) => {
+                if (isAuthenticated) {
+                    const redirectPath = localStorage.getItem('redirectAfterLogin') || '/';
+                    localStorage.removeItem('redirectAfterLogin');
+                    console.log('OAuth success, redirecting to:', redirectPath);
+                    navigate(redirectPath, { replace: true });
+                } else {
+                    console.error('Auth check failed with new token');
+                    navigate('/login?error=auth_check_failed');
+                }
             });
         } else {
             console.error('No token in callback');

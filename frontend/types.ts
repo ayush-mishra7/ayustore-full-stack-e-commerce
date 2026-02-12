@@ -17,8 +17,29 @@ export interface Subcategory {
   productCount: number;
 }
 
+export interface Review {
+  id: string;
+  userId: string;
+  userName: string;
+  rating: number;
+  comment: string;
+  date: string;
+  helpfulCount: number;
+  isVerifiedPurchase: boolean;
+  images?: string[];
+}
+
+export interface Seller {
+  id: string;
+  name: string;
+  rating: number;
+  followerCount: number;
+  isVerified: boolean;
+  joinedDate: string;
+}
+
 export interface Product {
-  id: number;
+  id: string;
   name: string;
   price: number; // Offer price in INR
   mrp: number; // Maximum Retail Price in INR
@@ -31,11 +52,26 @@ export interface Product {
   rating: number;
   reviews: number;
   stock: number;
-  specifications?: Record<string, string>;
+
+  // Extended Details
+  specifications?: { key: string; value: string }[];
   highlights?: string[];
   isFeatured?: boolean;
   isNewArrival?: boolean;
   isBestSeller?: boolean;
+
+  // New Fields for PDP Upgrade
+  seller?: Seller;
+  warranty?: string;
+  returnPolicy?: string;
+  delivery?: {
+    freeDelivery: boolean;
+    estimatedDays: number;
+    isCOD: boolean;
+  };
+  reviewsList?: Review[];
+  frequentlyBoughtTogether?: string[]; // IDs of related products
+  bankOffers?: string[];
 }
 
 export interface CartItem extends Product {
@@ -79,6 +115,16 @@ export interface FilterState {
   discount: number | null;
 }
 
+export type PaymentMethodType = 'UPI' | 'CARD' | 'NETBANKING' | 'COD' | 'EMI';
+
+export interface SavedPaymentMethod {
+  id: string;
+  type: PaymentMethodType;
+  title: string;
+  description?: string;
+  icon?: any;
+}
+
 export enum SortOption {
   NEWEST = 'newest',
   PRICE_LOW = 'price_low',
@@ -98,7 +144,62 @@ export const formatPrice = (price: number): string => {
   }).format(price);
 };
 
+
 // Calculate discount percentage  
 export const getDiscountPercent = (mrp: number, price: number): number => {
   return Math.round(((mrp - price) / mrp) * 100);
 };
+
+// --- Profile System Types ---
+
+export interface OrderEvent {
+  status: 'ordered' | 'shipped' | 'out_for_delivery' | 'delivered' | 'cancelled' | 'returned';
+  date: string;
+  description: string;
+}
+
+export interface DetailedOrder extends Order {
+  paymentMethod: string;
+  paymentId?: string;
+  timeline: OrderEvent[];
+  expectedDelivery: string;
+  invoiceUrl?: string;
+}
+
+export interface Notification {
+  id: string;
+  title: string;
+  message: string;
+  date: string;
+  read: boolean;
+  type: 'order' | 'offer' | 'security' | 'system';
+  actionUrl?: string;
+}
+
+export interface RewardTransaction {
+  id: string;
+  date: string;
+  description: string;
+  points: number;
+  type: 'earned' | 'redeemed' | 'expired';
+}
+
+export interface SupportTicket {
+  id: string;
+  subject: string;
+  category: 'order' | 'payment' | 'account' | 'other';
+  status: 'open' | 'closed' | 'resolved';
+  lastUpdated: string;
+  messages: {
+    sender: 'user' | 'support';
+    message: string;
+    timestamp: string;
+  }[];
+}
+
+export interface FAQ {
+  id: string;
+  question: string;
+  answer: string;
+  category: string;
+}

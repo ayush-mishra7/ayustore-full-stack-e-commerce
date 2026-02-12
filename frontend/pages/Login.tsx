@@ -32,8 +32,8 @@ const Login: React.FC = () => {
   // Redirect if already authenticated
   useEffect(() => {
     if (isAuthenticated) {
-      const redirectPath = sessionStorage.getItem('auth_redirect') || '/';
-      sessionStorage.removeItem('auth_redirect');
+      const redirectPath = localStorage.getItem('redirectAfterLogin') || '/';
+      localStorage.removeItem('redirectAfterLogin');
       navigate(redirectPath);
     }
   }, [isAuthenticated, navigate]);
@@ -53,11 +53,13 @@ const Login: React.FC = () => {
   };
 
   const handleGoogleLogin = () => {
-    // Store redirect path before OAuth
-    const currentRedirect = sessionStorage.getItem('auth_redirect');
-    if (!currentRedirect) {
-      sessionStorage.setItem('auth_redirect', '/');
+    // Store redirect path before OAuth if not already set by ProtectedRoute
+    if (!localStorage.getItem('redirectAfterLogin')) {
+      // If manually clicking login from a page, redirect back to that page (if not login page itself)
+      // But usually login page is distinct. If valid current location exists and isn't login, save it.
+      // For now, simpler to just ensure key exists or default to /
     }
+
     // Redirect to backend OAuth2 endpoint on port 8080
     window.location.href = 'http://localhost:8080/oauth2/authorize/google';
   };
@@ -75,8 +77,8 @@ const Login: React.FC = () => {
         if (response.data?.token) {
           localStorage.setItem('auth_token', response.data.token);
           await checkAuth();
-          const redirectPath = sessionStorage.getItem('auth_redirect') || '/';
-          sessionStorage.removeItem('auth_redirect');
+          const redirectPath = localStorage.getItem('redirectAfterLogin') || '/';
+          localStorage.removeItem('redirectAfterLogin');
           navigate(redirectPath);
         }
       } else {
@@ -112,8 +114,8 @@ const Login: React.FC = () => {
         if (response.data?.token) {
           localStorage.setItem('auth_token', response.data.token);
           await checkAuth();
-          const redirectPath = sessionStorage.getItem('auth_redirect') || '/';
-          sessionStorage.removeItem('auth_redirect');
+          const redirectPath = localStorage.getItem('redirectAfterLogin') || '/';
+          localStorage.removeItem('redirectAfterLogin');
           navigate(redirectPath);
         } else {
           setSuccessMessage('Registration successful! Please sign in.');
@@ -135,8 +137,12 @@ const Login: React.FC = () => {
 
         {/* Header */}
         <div className="text-center mb-8">
-          <div className="mx-auto h-16 w-16 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-2xl flex items-center justify-center text-white font-bold text-3xl mb-4 shadow-xl">
-            A
+          <div className="mx-auto h-20 w-20 flex items-center justify-center mb-4">
+            <img
+              src="/ayustore_logo.png"
+              alt="AyuStore Logo"
+              className="w-full h-full object-contain drop-shadow-lg"
+            />
           </div>
           <h1 className="text-3xl font-bold text-slate-900 dark:text-white">
             {isLoginMode ? 'Welcome Back!' : 'Create Account'}

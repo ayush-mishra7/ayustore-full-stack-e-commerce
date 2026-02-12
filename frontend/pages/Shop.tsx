@@ -7,7 +7,7 @@ import {
 import ProductCard from '../components/ProductCard';
 import Button from '../components/ui/Button';
 import { categories, brands } from '../data/categories';
-import { products as allProducts, getProductsByCategory, getProductsBySubcategory } from '../data/products';
+import { products as allProducts, catalog } from '../data/products';
 import { Product, formatPrice, SortOption } from '../types';
 
 const PRODUCTS_PER_PAGE = 12;
@@ -54,65 +54,15 @@ const Shop: React.FC = () => {
             );
         }
 
-        // Category filter
-        if (categoryParam) {
-            result = result.filter(p => p.category === categoryParam);
+        // Category filter (Strict Mode)
+        if (categoryParam && catalog[categoryParam]) {
+            // Strictly use the products from the catalog object for this category
+            result = [...catalog[categoryParam]];
         }
 
         // Subcategory filter
         if (subcategoryParam) {
             result = result.filter(p => p.subcategory === subcategoryParam);
-        }
-
-        // Price range filter
-        result = result.filter(p => p.price >= priceRange[0] && p.price <= priceRange[1]);
-
-        // Brand filter
-        if (selectedBrands.length > 0) {
-            result = result.filter(p => p.brand && selectedBrands.includes(p.brand));
-        }
-
-        // Rating filter
-        if (selectedRatings.length > 0) {
-            result = result.filter(p => selectedRatings.some(r => p.rating >= r));
-        }
-
-        // Availability filter
-        if (availability === 'inStock') {
-            result = result.filter(p => p.stock > 0);
-        }
-
-        // Discount filter
-        if (discountFilter > 0) {
-            result = result.filter(p => {
-                const discount = p.mrp ? Math.round(((p.mrp - p.price) / p.mrp) * 100) : 0;
-                return discount >= discountFilter;
-            });
-        }
-
-        // Sorting
-        switch (sortBy) {
-            case SortOption.PRICE_LOW:
-                result.sort((a, b) => a.price - b.price);
-                break;
-            case SortOption.PRICE_HIGH:
-                result.sort((a, b) => b.price - a.price);
-                break;
-            case SortOption.RATING:
-                result.sort((a, b) => b.rating - a.rating);
-                break;
-            case SortOption.DISCOUNT:
-                result.sort((a, b) => {
-                    const discA = a.mrp ? (a.mrp - a.price) / a.mrp : 0;
-                    const discB = b.mrp ? (b.mrp - b.price) / b.mrp : 0;
-                    return discB - discA;
-                });
-                break;
-            case SortOption.NEWEST:
-                result.sort((a, b) => b.id - a.id);
-                break;
-            default:
-                result.sort((a, b) => (b.reviews || 0) - (a.reviews || 0));
         }
 
         return result;
@@ -231,8 +181,8 @@ const Shop: React.FC = () => {
                                         toggleCategory(cat.id);
                                     }}
                                     className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-sm transition-colors ${categoryParam === cat.slug
-                                            ? 'bg-primary-50 dark:bg-primary-900/20 text-primary-600 dark:text-primary-400 font-medium'
-                                            : 'hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300'
+                                        ? 'bg-primary-50 dark:bg-primary-900/20 text-primary-600 dark:text-primary-400 font-medium'
+                                        : 'hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300'
                                         }`}
                                 >
                                     <span className="flex items-center gap-2">
@@ -253,8 +203,8 @@ const Shop: React.FC = () => {
                                                 key={sub.id}
                                                 onClick={() => setSearchParams({ category: cat.slug, subcategory: sub.slug })}
                                                 className={`w-full text-left px-3 py-1.5 rounded text-sm transition-colors ${subcategoryParam === sub.slug
-                                                        ? 'text-primary-600 dark:text-primary-400 font-medium'
-                                                        : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
+                                                    ? 'text-primary-600 dark:text-primary-400 font-medium'
+                                                    : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
                                                     }`}
                                             >
                                                 {sub.name}
@@ -295,8 +245,8 @@ const Shop: React.FC = () => {
                                     key={`${min}-${max}`}
                                     onClick={() => setPriceRange([min, max])}
                                     className={`px-2 py-1 rounded text-xs transition-colors ${priceRange[0] === min && priceRange[1] === max
-                                            ? 'bg-primary-600 text-white'
-                                            : 'bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600'
+                                        ? 'bg-primary-600 text-white'
+                                        : 'bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600'
                                         }`}
                                 >
                                     {formatPrice(min)} - {formatPrice(max)}
@@ -479,8 +429,8 @@ const Shop: React.FC = () => {
                     ) : (
                         <>
                             <div className={`grid gap-4 lg:gap-6 ${viewMode === 'grid'
-                                    ? 'grid-cols-2 lg:grid-cols-3'
-                                    : 'grid-cols-1'
+                                ? 'grid-cols-2 lg:grid-cols-3'
+                                : 'grid-cols-1'
                                 }`}>
                                 {paginatedProducts.map(product => (
                                     <ProductCard key={product.id} product={product} viewMode={viewMode} />
@@ -514,8 +464,8 @@ const Shop: React.FC = () => {
                                                 key={pageNum}
                                                 onClick={() => setCurrentPage(pageNum)}
                                                 className={`w-10 h-10 rounded-lg text-sm font-medium transition-colors ${currentPage === pageNum
-                                                        ? 'bg-primary-600 text-white'
-                                                        : 'border border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-700'
+                                                    ? 'bg-primary-600 text-white'
+                                                    : 'border border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-700'
                                                     }`}
                                             >
                                                 {pageNum}

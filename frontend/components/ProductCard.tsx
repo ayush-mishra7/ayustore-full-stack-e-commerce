@@ -58,7 +58,10 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, showBadge, viewMode 
     return (
       <div
         className="group bg-white dark:bg-slate-800 rounded-xl border border-slate-100 dark:border-slate-700 hover:shadow-lg transition-all duration-300 overflow-hidden cursor-pointer"
-        onClick={() => navigate(`/product/${product.id}`)}
+        onClick={() => {
+          console.log(`Navigating to product ID: ${product.id}`);
+          navigate(`/product/${product.id}`);
+        }}
       >
         <div className="flex flex-col sm:flex-row">
           {/* Image */}
@@ -125,8 +128,8 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, showBadge, viewMode 
                 <button
                   onClick={handleWishlistToggle}
                   className={`p-2 rounded-lg border transition-colors ${inWishlist
-                      ? 'bg-red-50 border-red-200 text-red-500'
-                      : 'border-slate-200 dark:border-slate-600 hover:border-red-300 hover:text-red-500'
+                    ? 'bg-red-50 border-red-200 text-red-500'
+                    : 'border-slate-200 dark:border-slate-600 hover:border-red-300 hover:text-red-500'
                     }`}
                 >
                   <Heart size={18} className={inWishlist ? 'fill-current' : ''} />
@@ -134,8 +137,8 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, showBadge, viewMode 
                 <button
                   onClick={handleAddToCart}
                   className={`px-4 py-2 rounded-lg font-medium text-sm transition-all ${isAddingToCart
-                      ? 'bg-green-500 text-white'
-                      : 'bg-primary-600 text-white hover:bg-primary-700'
+                    ? 'bg-green-500 text-white'
+                    : 'bg-primary-600 text-white hover:bg-primary-700'
                     }`}
                 >
                   {isAddingToCart ? '✓ Added' : 'Add to Cart'}
@@ -154,7 +157,10 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, showBadge, viewMode 
       {/* Image Container */}
       <div
         className="relative aspect-square overflow-hidden cursor-pointer bg-slate-100 dark:bg-slate-700"
-        onClick={() => navigate(`/product/${product.id}`)}
+        onClick={() => {
+          console.log(`Navigating to product ID: ${product.id}`);
+          navigate(`/product/${product.id}`);
+        }}
       >
         {!imageLoaded && (
           <div className="absolute inset-0 bg-slate-200 dark:bg-slate-700 animate-pulse" />
@@ -189,8 +195,8 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, showBadge, viewMode 
           <button
             onClick={handleWishlistToggle}
             className={`p-2 rounded-full shadow-lg backdrop-blur-sm transition-all duration-200 ${inWishlist
-                ? 'bg-red-500 text-white'
-                : 'bg-white/90 dark:bg-slate-800/90 text-slate-600 dark:text-slate-300 hover:bg-red-500 hover:text-white'
+              ? 'bg-red-500 text-white'
+              : 'bg-white/90 dark:bg-slate-800/90 text-slate-600 dark:text-slate-300 hover:bg-red-500 hover:text-white'
               }`}
             title={inWishlist ? 'Remove from Wishlist' : 'Add to Wishlist'}
           >
@@ -210,8 +216,8 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, showBadge, viewMode 
         <button
           onClick={handleAddToCart}
           className={`absolute bottom-0 left-0 right-0 py-2.5 text-sm font-semibold flex items-center justify-center gap-2 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ${isAddingToCart
-              ? 'bg-green-500 text-white'
-              : 'bg-primary-600 text-white hover:bg-primary-700'
+            ? 'bg-green-500 text-white'
+            : 'bg-primary-600 text-white hover:bg-primary-700'
             }`}
         >
           {isAddingToCart ? (

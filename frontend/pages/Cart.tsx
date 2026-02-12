@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Trash2, Plus, Minus, ArrowRight } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import Button from '../components/ui/Button';
+import { formatPrice } from '../types';
 
 const Cart: React.FC = () => {
   const { items, removeFromCart, updateQuantity, cartTotal, itemCount } = useCart();
@@ -70,7 +71,7 @@ const Cart: React.FC = () => {
                     </button>
                   </div>
                   <span className="font-bold text-slate-900 dark:text-white">
-                    ${(item.price * item.quantity).toFixed(2)}
+                    {formatPrice(item.price * item.quantity)}
                   </span>
                 </div>
               </div>
@@ -86,19 +87,19 @@ const Cart: React.FC = () => {
             <div className="space-y-3 mb-6">
               <div className="flex justify-between text-slate-600 dark:text-slate-300">
                 <span>Subtotal</span>
-                <span>${cartTotal.toFixed(2)}</span>
+                <span>{formatPrice(cartTotal)}</span>
               </div>
               <div className="flex justify-between text-slate-600 dark:text-slate-300">
                 <span>Shipping</span>
                 <span>Free</span>
               </div>
               <div className="flex justify-between text-slate-600 dark:text-slate-300">
-                <span>Tax (Est.)</span>
-                <span>${(cartTotal * 0.08).toFixed(2)}</span>
+                <span>GST (18%)</span>
+                <span>{formatPrice(cartTotal * 0.18)}</span>
               </div>
               <div className="border-t border-slate-100 dark:border-slate-700 pt-3 flex justify-between font-bold text-lg text-slate-900 dark:text-white">
                 <span>Total</span>
-                <span>${(cartTotal * 1.08).toFixed(2)}</span>
+                <span>{formatPrice(cartTotal * 1.18)}</span>
               </div>
             </div>
 

@@ -26,8 +26,8 @@ spring:
       client:
         registration:
           google:
-            client-id: ${GOOGLE_CLIENT_ID:placeholder}
-            client-secret: ${GOOGLE_CLIENT_SECRET:placeholder}
+            client-id: ${GOOGLE_CLIENT_ID}
+            client-secret: ${GOOGLE_CLIENT_SECRET}
             scope: openid,profile,email
             redirect-uri: "{baseUrl}/login/oauth2/code/{registrationId}"
         provider:
@@ -45,10 +45,10 @@ app:
     secret: ${JWT_SECRET:YXl1c3RvcmUtc2VjcmV0LWtleS1mb3Itand0LXRva2VuLWdlbmVyYXRpb24tMjAyNg==}
     expiration: 86400000
   cors:
-    allowed-origins: ${FRONTEND_URL:http://localhost:5173}
+    allowed-origins: ${FRONTEND_URL:http://localhost:3000}
   razorpay:
-    key-id: ${RAZORPAY_KEY_ID:placeholder}
-    key-secret: ${RAZORPAY_KEY_SECRET:placeholder}
+    key-id: ${RAZORPAY_KEY_ID:rzp_test_SDhmQcFx2MYJFD}
+    key-secret: ${RAZORPAY_KEY_SECRET:8NarMgtXC3cmc96KDGteHwjX}
 
 springdoc:
   api-docs:
