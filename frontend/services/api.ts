@@ -3,8 +3,13 @@ import { Product, Order, User } from '../types';
 
 import { products } from '../data/products';
 
-// Read from env or default to relative path
-const BASE_URL = (import.meta as any).env?.VITE_API_URL || '/api';
+// Read from env
+const envUrl = (import.meta as any).env?.VITE_API_URL;
+// VITE_API_URL should be the root domain (e.g. https://backend.com)
+// We need to append /api for the axios instance
+const BASE_URL = envUrl
+  ? (envUrl.endsWith('/api') ? envUrl : `${envUrl}/api`)
+  : '/api';
 
 const api = axios.create({
   baseURL: BASE_URL,
