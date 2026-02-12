@@ -95,7 +95,7 @@ graph TD
 
 ### 1. Clone the Repository
 ```bash
-git clone https://github.com/yourusername/ayustore-full-stack.git
+git clone https://github.com/ayush-mishra7/ayustore-full-stack-e-commerce.git
 cd ayustore-full-stack
 ```
 
