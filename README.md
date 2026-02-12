@@ -1,6 +1,6 @@
 # 🛍️ AyuStore - Premium E-Commerce Platform
 
-![AyuStore Hero](https://images.unsplash.com/photo-1556742049-0cfed4f7a07d?auto=format&fit=crop&q=80&w=1200&h=400)
+![AyuStore Hero](assets/ayustore_logo.png)
 
 > **A full-stack, production-grade e-commerce application built for the modern India.**  
 > Featuring real-time payments, secure authentication, and a blazing fast user experience.
@@ -67,19 +67,19 @@ The platform is tailored for the Indian market with **INR currency support**, **
 
 ```mermaid
 graph TD
-    User[Clients (Web/Mobile)] -->|HTTPS| CDN[Vercel CDN]
-    CDN -->|Load| Frontend[React SPA]
-    Frontend -->|API Calls| LB{Load Balancer}
-    LB -->|Traffic| Backend[Spring Boot Service]
+    User["Clients (Web/Mobile)"] -->|HTTPS| CDN["Vercel CDN"]
+    CDN -->|Load| Frontend["React SPA"]
+    Frontend -->|API Calls| LB{"Load Balancer"}
+    LB -->|Traffic| Backend["Spring Boot Service"]
     
     subgraph Data Layer
-    Backend -->|Read/Write| DB[(PostgreSQL)]
-    Backend -->|Cache| Cache[(Redis)]
+    Backend -->|Read/Write| DB[("PostgreSQL")]
+    Backend -->|Cache| Cache[("Redis")]
     end
     
     subgraph External Services
-    Backend -->|Auth| Google[Google OAuth]
-    Backend -->|Payments| Razorpay[Razorpay Gateway]
+    Backend -->|Auth| Google["Google OAuth"]
+    Backend -->|Payments| Razorpay["Razorpay Gateway"]
     end
 ```
 
@@ -144,11 +144,11 @@ Create a `.env` file in the root (or configure system env vars) for production.
 
 | Home Page | Product Details |
 | :---: | :---: |
-| ![Home](https://placehold.co/600x400/e2e8f0/1e293b?text=Home+Page+Preview) | ![PDP](https://placehold.co/600x400/e2e8f0/1e293b?text=Product+Details+Preview) |
+| ![Home](assets/homepage.png) | ![PDP](assets/product_details.png) |
 
 | Shopping Cart | Checkout |
 | :---: | :---: |
-| ![Cart](https://placehold.co/600x400/e2e8f0/1e293b?text=Shopping+Cart+Preview) | ![Checkout](https://placehold.co/600x400/e2e8f0/1e293b?text=Checkout+Flow+Preview) |
+| ![Cart](assets/shopping_cart.png) | ![Checkout](assets/checkout.png) |
 
 ---
 
