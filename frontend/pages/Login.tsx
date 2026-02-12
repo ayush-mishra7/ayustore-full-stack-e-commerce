@@ -60,8 +60,10 @@ const Login: React.FC = () => {
       // For now, simpler to just ensure key exists or default to /
     }
 
-    // Redirect to backend OAuth2 endpoint on port 8080
-    window.location.href = 'http://localhost:8080/oauth2/authorize/google';
+    // Redirect to backend OAuth2 endpoint
+    // Uses VITE_API_URL from .env (Vercel)
+    const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8080';
+    window.location.href = `${apiUrl}/oauth2/authorize/google`;
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
