@@ -62,7 +62,11 @@ const Login: React.FC = () => {
 
     // Redirect to backend OAuth2 endpoint
     // Uses VITE_API_URL from .env (Vercel)
-    const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8080';
+    let apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8080';
+    // Remove /api suffix if present to ensure correct OAuth path
+    if (apiUrl.endsWith('/api')) {
+      apiUrl = apiUrl.slice(0, -4);
+    }
     window.location.href = `${apiUrl}/oauth2/authorize/google`;
   };
 
