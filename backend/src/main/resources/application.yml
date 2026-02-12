@@ -6,9 +6,9 @@ spring:
   application:
     name: ayustore-backend
   datasource:
-    url: ${DATABASE_URL:jdbc:postgresql://localhost:5432/ayustore}
-    username: ${DATABASE_USERNAME:postgres}
-    password: ${DATABASE_PASSWORD:postgres}
+    url: ${JDBC_DATABASE_URL:${DATABASE_URL:jdbc:postgresql://localhost:5432/ayustore}}
+    username: ${JDBC_DATABASE_USERNAME:${DATABASE_USERNAME:postgres}}
+    password: ${JDBC_DATABASE_PASSWORD:${DATABASE_PASSWORD:postgres}}
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
